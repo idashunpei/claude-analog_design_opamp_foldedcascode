@@ -1,0 +1,35 @@
+* Quick OP test
+.model nch nmos level=1 vto=0.5 kp=0.0002 lambda=0.1
+.model pch pmos level=1 vto=-0.5 kp=8e-05 lambda=0.15
+
+VDD   vdd   0   1.8
+Vbias vbias 0   1.1
+Vbn   vbn   0   0.7
+Vcn   vcn   0   0.9
+Vbp   vbp   0   1.1
+Vcp   vcp   0   0.9
+
+Vinp  vinp  0  DC 0.9
+Vinn  vinn  0  DC 0.9
+
+M0   vtail  vbias  vdd  vdd  pch  W=31.25u  L=0.50u
+M1   na     vinp   vtail vdd pch  W=24.67u  L=0.50u
+M2   vout   vinn   vtail vdd pch  W=24.67u  L=0.50u
+M3   na     vcn    nc    0   nch  W=12.50u  L=0.50u
+M4   vout   vcn    nd    0   nch  W=12.50u  L=0.50u
+M5   nc     vbn    0     0   nch  W=12.50u  L=0.50u
+M6   nd     vbn    0     0   nch  W=12.50u  L=0.50u
+M7   na     vcp    ne    vdd pch  W=15.63u  L=0.50u
+M8   vout   vcp    nf    vdd pch  W=15.63u  L=0.50u
+M9   ne     vbp    vdd   vdd pch  W=15.63u  L=0.50u
+M10  nf     vbp    vdd   vdd pch  W=15.63u  L=0.50u
+CL   vout   0      2e-12
+
+.control
+    op
+    print v(vout) v(vtail) v(na) v(nc) v(nd) v(ne) v(nf)
+    print @m0[id] @m1[id] @m2[id] @m3[id] @m4[id] @m5[id] @m6[id]
+    print @m0[vdsat] @m0[vds] @m1[vdsat] @m1[vds]
+    quit
+.endc
+.end

@@ -1,0 +1,46 @@
+* Folded Cascode OTA — Operating Point (unity-gain feedback)
+.model nch nmos level=1 vto=0.5 kp=0.0002
++ lambda=0.1
+.model pch pmos level=1 vto=-0.5 kp=8e-05
++ lambda=0.15
+
+* --- Supply & Bias ---
+VDD   vdd   0   1.8
+Vbias vbias 0   1.1000
+Vbn   vbn   0   0.7000
+Vcn   vcn   0   0.9000
+Vbp   vbp   0   1.1000
+Vcp   vcp   0   0.9000
+
+* --- Input at VCM, output fed back to Vin- ---
+Vinp  vinp  0  DC 0.9
+* M2 gate = vout (unity-gain feedback)
+M0   vtail  vbias  vdd  vdd  pch  W=31.25u  L=0.50u
+M1   na     vinp   vtail vdd pch  W=24.67u  L=0.50u
+M2   vout   vout   vtail vdd pch  W=24.67u  L=0.50u
+M3   na     vcn    nc    0   nch  W=12.50u  L=0.50u
+M4   vout   vcn    nd    0   nch  W=12.50u  L=0.50u
+M5   nc     vbn    0     0   nch  W=12.50u  L=0.50u
+M6   nd     vbn    0     0   nch  W=12.50u  L=0.50u
+M7   na     vcp    ne    vdd pch  W=15.62u  L=0.50u
+M8   vout   vcp    nf    vdd pch  W=15.62u  L=0.50u
+M9   ne     vbp    vdd   vdd pch  W=15.62u  L=0.50u
+M10  nf     vbp    vdd   vdd pch  W=15.62u L=0.50u
+CL   vout   0      2e-12
+.control
+    op
+    show all
+    print @m0[id] @m0[vgs] @m0[vds] @m0[vdsat] @m0[gm] @m0[gds]
+    print @m1[id] @m1[vgs] @m1[vds] @m1[vdsat] @m1[gm] @m1[gds]
+    print @m2[id] @m2[vgs] @m2[vds] @m2[vdsat] @m2[gm] @m2[gds]
+    print @m3[id] @m3[vgs] @m3[vds] @m3[vdsat] @m3[gm] @m3[gds]
+    print @m4[id] @m4[vgs] @m4[vds] @m4[vdsat] @m4[gm] @m4[gds]
+    print @m5[id] @m5[vgs] @m5[vds] @m5[vdsat] @m5[gm] @m5[gds]
+    print @m6[id] @m6[vgs] @m6[vds] @m6[vdsat] @m6[gm] @m6[gds]
+    print @m7[id] @m7[vgs] @m7[vds] @m7[vdsat] @m7[gm] @m7[gds]
+    print @m8[id] @m8[vgs] @m8[vds] @m8[vdsat] @m8[gm] @m8[gds]
+    print @m9[id] @m9[vgs] @m9[vds] @m9[vdsat] @m9[gm] @m9[gds]
+    print @m10[id] @m10[vgs] @m10[vds] @m10[vdsat] @m10[gm] @m10[gds]
+    quit
+.endc
+.end

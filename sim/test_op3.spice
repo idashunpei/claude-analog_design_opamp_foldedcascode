@@ -1,0 +1,40 @@
+* OP test v3 - get node voltages via .dc
+.model nch nmos level=1 vto=0.5 kp=0.0002 lambda=0.1
+.model pch pmos level=1 vto=-0.5 kp=8e-05 lambda=0.15
+
+VDD   vdd   0   1.8
+Vbias vbias 0   1.1
+Vbn   vbn   0   0.7
+Vcn   vcn   0   0.9
+Vbp   vbp   0   1.1
+Vcp   vcp   0   0.9
+Vinp  vinp  0  DC 0.9
+Vinn  vinn  0  DC 0.9
+
+M0   vtail  vbias  vdd  vdd  pch  W=31.25u  L=0.50u
+M1   na     vinp   vtail vdd pch  W=24.67u  L=0.50u
+M2   vout   vinn   vtail vdd pch  W=24.67u  L=0.50u
+M3   na     vcn    nc    0   nch  W=12.50u  L=0.50u
+M4   vout   vcn    nd    0   nch  W=12.50u  L=0.50u
+M5   nc     vbn    0     0   nch  W=12.50u  L=0.50u
+M6   nd     vbn    0     0   nch  W=12.50u  L=0.50u
+M7   na     vcp    ne    vdd pch  W=15.63u  L=0.50u
+M8   vout   vcp    nf    vdd pch  W=15.63u  L=0.50u
+M9   ne     vbp    vdd   vdd pch  W=15.63u  L=0.50u
+M10  nf     vbp    vdd   vdd pch  W=15.63u  L=0.50u
+CL   vout   0      2e-12
+
+.control
+    op
+    let vtail_v = v(vtail)
+    let na_v = v(na)
+    let vout_v = v(vout)
+    let nc_v = v(nc)
+    let nd_v = v(nd)
+    let ne_v = v(ne)
+    let nf_v = v(nf)
+    echo "--- Node Voltages ---"
+    print vtail_v na_v vout_v nc_v nd_v ne_v nf_v
+    quit
+.endc
+.end
