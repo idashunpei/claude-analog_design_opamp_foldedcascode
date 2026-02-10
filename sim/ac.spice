@@ -7,22 +7,21 @@
 * --- Supply & Bias ---
 VDD   vdd   0   1.8
 Vbias vbias 0   1.1000
-Vbn   vbn   0   0.7000
-Vcn   vcn   0   0.9000
+Vcn   vcn   0   1.3000
 Vbp   vbp   0   1.1000
 Vcp   vcp   0   0.9000
 
 * --- Differential AC input ---
 Vinp  vinp  0  DC 0.9  AC  0.5
 Vinn  vinn  0  DC 0.9  AC -0.5
-* --- OTA core ---
+* --- OTA core (NMOS cascode current mirror: M5 diode, M6 mirrors) ---
 M0   vtail  vbias  vdd  vdd  pch  W=31.25u  L=0.50u
 M1   na     vinp   vtail vdd pch  W=24.67u  L=0.50u
 M2   vout   vinn   vtail vdd pch  W=24.67u  L=0.50u
-M3   na     vcn    nc    0   nch  W=12.50u  L=0.50u
-M4   vout   vcn    nd    0   nch  W=12.50u  L=0.50u
-M5   nc     vbn    0     0   nch  W=12.50u  L=0.50u
-M6   nd     vbn    0     0   nch  W=12.50u  L=0.50u
+M3   na     vcn    nc    0   nch  W=22.22u  L=0.50u
+M4   vout   vcn    nd    0   nch  W=22.22u  L=0.50u
+M5   nc     nc     0     0   nch  W=22.22u  L=0.50u
+M6   nd     nc     0     0   nch  W=22.22u  L=0.50u
 M7   na     vcp    ne    vdd pch  W=15.62u  L=0.50u
 M8   vout   vcp    nf    vdd pch  W=15.62u  L=0.50u
 M9   ne     vbp    vdd   vdd pch  W=15.62u  L=0.50u
