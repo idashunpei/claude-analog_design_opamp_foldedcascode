@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(ngspice:*)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(jupyter nbconvert:*)"
     ]
   }
 }
